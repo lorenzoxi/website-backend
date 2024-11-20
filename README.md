@@ -2,6 +2,7 @@
 
 For starting:
 
+- pip install -r requirements.txt
 - activate python virtual environment: `source venv/bin/activate`
 - run the service: `python3.xx server.py`
 

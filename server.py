@@ -11,7 +11,6 @@ import os
 
 load_dotenv()
 
-
 # Quart app
 app = Quart(__name__)
 app = cors(app, allow_origin="*")
@@ -39,6 +38,11 @@ async def shutdown():
     await client.disconnect()
 
 
+@app.route("/", methods=["GET"])
+async def index():
+    return "<h1>Service is up and running.</h1>"
+
+
 @app.route("/get_messages", methods=["GET"])
 async def get_messages():
     messages = []
@@ -47,24 +51,26 @@ async def get_messages():
         channel = await client.get_entity(channel_username)
         async for message in client.iter_messages(channel, limit=10):
             message = message.to_dict()
-            
+
             if "message" in message:
-                res = {'message': '', 'date': '', 'edit_date': ''}
-                res['message'] = message['message']        
-                
-                #check if message has date and edit_date 
+                res = {"message": "", "date": "", "edit_date": ""}
+                res["message"] = message["message"]
+
+                # check if message has date and edit_date
                 if "date" in message and message["date"] is not None:
-                    date = message['date']
-                    res['date'] = re.search(r'\d{4}-\d{2}-\d{2}', str(date)).group()
+                    date = message["date"]
+                    res["date"] = re.search(r"\d{4}-\d{2}-\d{2}", str(date)).group()
                 date_edit = ""
                 if "edit_date" in message and message["edit_date"] is not None:
-                    date_edit = message['edit_date']
-                    res['edit_date'] = re.search(r'\d{4}-\d{2}-\d{2}', str(date_edit)).group()
-                    
-                #print("-------------------")
-                #print(res)
-                #print(type(res))
-                #print("-------------------")
+                    date_edit = message["edit_date"]
+                    res["edit_date"] = re.search(
+                        r"\d{4}-\d{2}-\d{2}", str(date_edit)
+                    ).group()
+
+                # print("-------------------")
+                # print(res)
+                # print(type(res))
+                # print("-------------------")
                 messages.append(json.dumps(res))
     except Exception as e:
         print(e)
@@ -73,4 +79,4 @@ async def get_messages():
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run
