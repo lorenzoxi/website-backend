@@ -25,6 +25,7 @@ channel_username = os.getenv(
 api_id = int(os.getenv("API_ID"))  # API ID from https://my.telegram.org
 api_hash = os.getenv("API_HASH")  # API Hash from https://my.telegram.org
 bot_token = os.getenv("BOT_TOKEN")  # Bot token from @BotFather
+port = int(os.getenv("PORT", 5000))  # Port to run the server on
 
 # Initialize Telethon client for the bot
 client = TelegramClient("bot_session", api_id, api_hash)
@@ -102,8 +103,4 @@ async def get_messages():
 
 
 if __name__ == "__main__":
-    config = hypercorn.Config()
-    config.bind = ["0.0.0.0:5000"]
-
-    # Use Hypercorn ASGI server to run Quart app
-    asyncio.run(hypercorn.asyncio.serve(app, config))
+    app.run(host="0.0.0.0", port=port)
