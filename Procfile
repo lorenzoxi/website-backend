@@ -1,1 +1,1 @@
-web: gunicorn server:app --workers=1
+web: hypercorn server:app
