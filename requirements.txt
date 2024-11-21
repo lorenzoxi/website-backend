@@ -5,3 +5,4 @@ quart_cors==0.7.0
 Requests==2.32.3
 Telethon==1.38.1
 tinydb==4.8.2
+gunicorn==23.0.0
