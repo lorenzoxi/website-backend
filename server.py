@@ -103,7 +103,7 @@ async def get_messages():
 
 if __name__ == "__main__":
     config = hypercorn.Config()
-    config.bind = ["0.0.0.0:8080"]
+    config.bind = ["0.0.0.0:5000"]
 
     # Use Hypercorn ASGI server to run Quart app
     asyncio.run(hypercorn.asyncio.serve(app, config))
